@@ -1,28 +1,40 @@
 import java.util.List;
 
 public class quadtreeNode {
-    public region regionOfInterest;
+    public region region;
     public point point;
-    private List<quadtreeNode> children;
+    public List<quadtreeNode> children;
 
     /**
      * Constructs new quadtree node with specified values
-     * @param regionOfInterest region of interest for the node
+     *
+     * @param region region of interest for the node
      * @param point point contained in this node
      * @param children list of children of this node
      */
-    public quadtreeNode(region regionOfInterest, point point, List<quadtreeNode> children) {
-        this.regionOfInterest = regionOfInterest;
+    public quadtreeNode(region region, point point, List<quadtreeNode> children) {
+        this.region = region;
         this.point = point;
         this.children = children;
     }
 
-    public region getRegionOfInterest() {
-        return regionOfInterest;
+    /**
+     * Constructs new quadtree node with specified region and default values
+     *
+     * @param region region of interest for the node
+     */
+    public quadtreeNode(region region) {
+        this.region = region;
+        this.point = null;
+        this.children = null;
     }
 
-    public void setRegionOfInterest(region regionOfInterest) {
-        this.regionOfInterest = regionOfInterest;
+    public region getRegion() {
+        return region;
+    }
+
+    public void setRegion(region region) {
+        this.region = region;
     }
 
     public point getPoint() {
@@ -35,6 +47,10 @@ public class quadtreeNode {
 
     public List<quadtreeNode> getChildren() {
         return children;
+    }
+
+    public int getNumChildren() {
+        return children.size();
     }
 
     public void setChildren(List<quadtreeNode> children) {

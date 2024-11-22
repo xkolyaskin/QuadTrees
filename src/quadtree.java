@@ -32,6 +32,21 @@ public class quadtree {
      */
     public boolean insert(point P, quadtreeNode root) {
         // todo implement insert
-        return true;
+        if (!inBoundary(root.region, P)) {
+            return false;
+        }
+        if ((root.point == null) && root.getNumChildren() == 0) {
+            root.setPoint(P);
+            return true;
+        }
+        if (root.getNumChildren() == 0) {
+            subdivide(root);
+        }
+        for (quadtreeNode quadrant : root.children) {
+            if (insert(P, quadrant)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
