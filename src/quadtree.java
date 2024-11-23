@@ -1,8 +1,25 @@
 import java.util.ArrayList;
 
 public class quadtree {
-    private region bounds;
+    static region bounds;
     ArrayList<point> points;
+
+    /**
+     * Initializes a quadtree with given dimensions and 0 points
+     *
+     * @param width width of the quadtree (xmax)
+     * @param height height of the quadtree (ymax)
+     */
+    public quadtree(int width, int height) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException("Error: attempt to initialize quadtree with negative dimensions: " +
+                    "width: " + width + ", height: " + height);
+        }
+        bounds.xmin = 0;
+        bounds.ymin = 0;
+        bounds.xmax = width;
+        bounds.ymax = height;
+    }
 
     /**
      * Checks if a point is in the boundaries of a region
@@ -15,11 +32,11 @@ public class quadtree {
     }
 
     /**
-     * Subdivides the input quadtreeNode into 4 quadrants
+     * Subdivides the input quadtree node into 4 quadrants
      *
      * @param root node to subdivide
      */
-    public void subdivide(quadtreeNode root) {
+    public void subdivide(node root) {
         // todo implement subdivide
         int xmin = root.region.xmin;
         int ymin = root.region.ymin;
@@ -29,15 +46,15 @@ public class quadtree {
         int xmid = (xmin + xmax) / 2;
         int ymid = (ymin + ymax) / 2;
 
-        root.children.add(new quadtreeNode(new region(xmin, ymid, xmid, ymax))); // NW
-        root.children.add(new quadtreeNode(new region(xmid, ymid, xmax, ymax))); // NE
-        root.children.add(new quadtreeNode(new region(xmin, ymin, xmid, ymid))); // SW
-        root.children.add(new quadtreeNode(new region(xmid, ymin, xmax, ymid))); // SE
+        root.children.add(new node(new region(xmin, ymid, xmid, ymax))); // NW
+        root.children.add(new node(new region(xmid, ymid, xmax, ymax))); // NE
+        root.children.add(new node(new region(xmin, ymin, xmid, ymid))); // SW
+        root.children.add(new node(new region(xmid, ymin, xmax, ymid))); // SE
 
         if (!(root.point == null)) {
             point P = root.point;
             root.point = null;
-            for (quadtreeNode quadrant : root.children) {
+            for (node quadrant : root.children) {
                 if (insert(P, quadrant)) {
                     return;
                 }
@@ -52,7 +69,7 @@ public class quadtree {
      * @param root node to insert point
      * @return true if insert successful
      */
-    public boolean insert(point P, quadtreeNode root) {
+    public boolean insert(point P, node root) {
         // todo implement insert
         if (!inBoundary(root.region, P)) {
             return false;
@@ -64,7 +81,7 @@ public class quadtree {
         if (root.getNumChildren() == 0) {
             subdivide(root);
         }
-        for (quadtreeNode quadrant : root.children) {
+        for (node quadrant : root.children) {
             if (insert(P, quadrant)) {
                 return true;
             }

@@ -1,9 +1,9 @@
 import java.util.List;
 
-public class quadtreeNode {
+public class node {
     public region region;
     public point point;
-    public List<quadtreeNode> children;
+    public List<node> children;
 
     /**
      * Constructs new quadtree node with specified values
@@ -12,7 +12,7 @@ public class quadtreeNode {
      * @param point point contained in this node
      * @param children list of children of this node
      */
-    public quadtreeNode(region region, point point, List<quadtreeNode> children) {
+    public node(region region, point point, List<node> children) {
         this.region = region;
         this.point = point;
         this.children = children;
@@ -23,7 +23,7 @@ public class quadtreeNode {
      *
      * @param region region of interest for the node
      */
-    public quadtreeNode(region region) {
+    public node(region region) {
         this.region = region;
         this.point = null;
         this.children = null;
@@ -45,7 +45,7 @@ public class quadtreeNode {
         this.point = point;
     }
 
-    public List<quadtreeNode> getChildren() {
+    public List<node> getChildren() {
         return children;
     }
 
@@ -53,7 +53,7 @@ public class quadtreeNode {
         return children.size();
     }
 
-    public void setChildren(List<quadtreeNode> children) {
+    public void setChildren(List<node> children) {
         this.children = children;
     }
 }
